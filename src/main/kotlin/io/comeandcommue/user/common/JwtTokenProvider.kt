@@ -4,11 +4,13 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import io.comeandcommue.user.domain.user.UserDto
 import org.springframework.stereotype.Component
-import java.util.Date
+import java.util.*
 
 @Component
 class JwtTokenProvider {
     private val algorithm: Algorithm = Algorithm.HMAC256("f8I7Tn4Wb8zL9d3Pq6Vr1sFz8Xr2Ek3Gh1m9Yc6Lq3XnPt0a")
+    // 90일(초)
+    private val expirySeconds: Long = 7_776_000L
 
     fun createAuthToken(user: UserDto): String {
         return generateToken(
@@ -22,7 +24,7 @@ class JwtTokenProvider {
         nickname: String,
     ): String {
         val now = Date()
-        val expiry = Date(now.time + 7776000 * 1000L)
+        val expiry = Date(now.time + expirySeconds * 1000L)
 
         val builder = JWT.create()
                 .withSubject(subject)
