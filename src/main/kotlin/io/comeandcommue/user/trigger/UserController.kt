@@ -1,5 +1,6 @@
 package io.comeandcommue.user.trigger
 
+import io.comeandcommue.user.application.ChangeNicknameUseCase
 import io.comeandcommue.user.application.CreateUserUseCase
 import io.comeandcommue.user.application.GetUserUseCase
 import io.comeandcommue.user.common.JwtTokenProvider
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseCookie
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -21,6 +23,7 @@ import java.time.Duration
 class UserController(
     private val createUserUseCase: CreateUserUseCase,
     private val getUserUseCase: GetUserUseCase,
+    private val changeNicknameUseCase: ChangeNicknameUseCase,
     private val jwtTokenProvider: JwtTokenProvider
 ) {
     val authCookieName = "__auth_token_"
@@ -56,6 +59,22 @@ class UserController(
 
         return  ResponseEntity.ok(
             getUserUseCase.getUser(jwtTokenProvider.extractSubject(authToken))
+        )
+    }
+
+    @PatchMapping("/nickname")
+    fun updateNickname(request: HttpServletRequest): ResponseEntity<UserDto> {
+        val authToken = request.cookies
+            ?.firstOrNull { it.name == authCookieName }
+            ?.value
+
+        // 토큰이 없으면 401
+        if (authToken.isNullOrBlank()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
+        }
+
+        return ResponseEntity.ok(
+            changeNicknameUseCase.changeNickname(jwtTokenProvider.extractSubject(authToken))
         )
     }
 }

@@ -1,25 +1,23 @@
 package io.comeandcommue.user.application
 
 import io.comeandcommue.user.domain.user.UserDto
-import io.comeandcommue.user.domain.user.UserEntity
 import io.comeandcommue.user.domain.user.UserRepository
 import io.comeandcommue.user.domain.user.toDto
 import io.comeandcommue.user.infrastructure.redis.NicknameRedisStore
-import org.springframework.stereotype.Component
+import lombok.RequiredArgsConstructor
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
-@Transactional
-class CreateUserUseCase(
+@RequiredArgsConstructor
+class ChangeNicknameUseCase(
     private val userRepository: UserRepository,
     private val nicknameRedisStore: NicknameRedisStore
 ) {
-    fun createUser(): UserDto {
-        val newUser = UserEntity(
-            nickname = nicknameRedisStore.createNickname(),
-        )
-        return userRepository.save(newUser)
+    fun changeNickname(userId: String): UserDto {
+        val  user = userRepository.findById(userId)
+        user.changeNickname(nicknameRedisStore.createNickname())
+
+        return userRepository.save(user)
             .toDto()
     }
 }
