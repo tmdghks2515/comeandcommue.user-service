@@ -16,10 +16,24 @@ java {
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
+    maven {
+        name = "GitHubPackages"
+		url = uri("https://maven.pkg.github.com/tmdghks2515/comeandcommue.lib.web-lib")
+        credentials {
+            // gradle.properties의 gpr.user / gpr.key 사용
+            username = findProperty("gpr.user") as String?
+            password = findProperty("gpr.key") as String?
+
+            // (선택) 환경변수로도 fallback 하고 싶다면:
+            // username = (findProperty("gpr.user") as String?) ?: System.getenv("GITHUB_ACTOR")
+            // password = (findProperty("gpr.key") as String?) ?: System.getenv("GITHUB_TOKEN")
+        }
+    }
 }
 
 dependencies {
+	implementation("io.comeandcommue.lib:web-lib:0.0.1-SNAPSHOT")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	implementation("org.springframework.boot:spring-boot-starter-web")

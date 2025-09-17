@@ -79,7 +79,7 @@ class NicknameRedisStore(
         // 4. 제한 횟수 검사
         if (newCount > 3) {
             redisTemplate.opsForValue().decrement(dailyNicknameChangeCountKey)
-            throw IllegalStateException("오늘의 닉네임 변경 가능 횟수를 초과했습니다. (count=$newCount)")
+            throw IllegalStateException("오늘의 닉네임 변경 가능 횟수를 초과했습니다.")
         }
 
         return createNickname()
