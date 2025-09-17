@@ -1,6 +1,6 @@
 package io.comeandcommue.user.domain.user
 
-import io.comeandcommue.user.common.ShortId
+import io.comeandcommue.lib.web.shortId.ShortId
 import jakarta.persistence.*
 import lombok.EqualsAndHashCode
 import org.springframework.data.annotation.CreatedDate

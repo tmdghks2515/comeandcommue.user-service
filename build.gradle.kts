@@ -17,6 +17,7 @@ java {
 
 repositories {
     mavenCentral()
+	mavenLocal()
     maven {
         name = "GitHubPackages"
 		url = uri("https://maven.pkg.github.com/tmdghks2515/comeandcommue.lib.web-lib")
