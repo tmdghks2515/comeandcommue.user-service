@@ -15,7 +15,8 @@ class ChangeNicknameUseCase(
 ) {
     fun changeNickname(userId: String): UserDto {
         val  user = userRepository.findById(userId)
-        user.changeNickname(nicknameRedisStore.createNickname())
+        val newNickname = nicknameRedisStore.changeNickname(userId)
+        user.changeNickname(newNickname)
 
         return userRepository.save(user)
             .toDto()

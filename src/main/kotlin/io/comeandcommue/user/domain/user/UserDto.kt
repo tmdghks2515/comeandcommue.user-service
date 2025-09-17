@@ -6,6 +6,5 @@ import java.time.LocalDateTime
 data class UserDto(
     val id:  String,
     val nickname: String,
-    val dailyNicknameChangeRemain: Int,
     val createdAt: Instant,
 )
