@@ -1,6 +1,7 @@
 package io.comeandcommue.user.domain.user
 
-import io.comeandcommue.lib.web.shortId.ShortId
+import io.comeandcommue.lib.data.baseEntity.BaseEntity
+import io.comeandcommue.lib.data.shortId.ShortId
 import jakarta.persistence.*
 import lombok.EqualsAndHashCode
 import org.springframework.data.annotation.CreatedDate
@@ -22,11 +23,7 @@ class UserEntity(
 
     @Column
     var password: String = "",
-
-    @CreatedDate
-    @Column(name = "created_at", updatable = false)
-    val createdAt: Instant =  Instant.now(),
-) {
+) : BaseEntity() {
     protected constructor() : this(id = null)
 
     fun changeNickname(newNickname: String) {
