@@ -39,6 +39,7 @@ class UserController(
                 .secure(true)
                 .maxAge(Duration.ofSeconds(7776000)) // 90 Days
                 .sameSite("None")
+                .path("/")
                 .build()
                 .toString()
         )
