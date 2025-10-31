@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController
 import java.time.Duration
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/user")
 class UserController(
     private val createUserUseCase: CreateUserUseCase,
     private val getUserUseCase: GetUserUseCase,
@@ -28,7 +28,7 @@ class UserController(
 ) {
     val authCookieName = "__auth_token_"
 
-    @PostMapping("", "/")
+    @PostMapping
     fun createUser(response: HttpServletResponse): ResponseEntity<UserDto> {
         val createdUserDto = createUserUseCase.createUser()
 
@@ -46,7 +46,7 @@ class UserController(
         return ResponseEntity.ok(createdUserDto)
     }
 
-    @GetMapping("", "/")
+    @GetMapping
     fun getUser(request: HttpServletRequest): ResponseEntity<UserDto> {
         val authToken = request.cookies
             ?.firstOrNull { it.name == authCookieName }
